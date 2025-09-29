@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New TODO Item</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+
+    <h1>➕ Add New TODO Item</h1>
+    
+    <form action="#" th:action="@{/add}" th:object="${todoItem}" method="post">
+        
+        <label for="description">Task Description:</label>
+        <input type="text" th:field="*{description}" id="description" placeholder="e.g., Buy groceries, Finish report">
+        
+        <span th:if="${#fields.hasErrors('description')}" 
+              th:errors="*{description}" 
+              class="error-message"> 
+              Description Error
+        </span>
+        
+        <div>
+            <button type="submit">Add Task</button>
+            <a th:href="@{/}">Cancel (Back to List)</a>
+        </div>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+package com.todolist.todo;
+
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class TodoItemController {
+
+    private final TodoItemRepository todoItemRepository;
+
+    // Spring automatically injects the repository bean
+    public TodoItemController(TodoItemRepository todoItemRepository) {
+    }
+
+    // Handles GET requests to the root path (http://localhost:8080/)
+    @GetMapping("/")
+    public String listTodoItems(Model model) {
+        // 1. Fetch all TodoItems from the database
+        Iterable<TodoItem> items = todoItemRepository.findAll();
+        
+        // 2. Add the list of items to the Model object
+        // The Model makes the data available to the Thymeleaf template
+        model.addAttribute("todoItems", items);
+        
+        // 3. Return the name of the Thymeleaf template (index.html)
+        return "index"; 
+    }
+}

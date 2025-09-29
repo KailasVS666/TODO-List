@@ -1,0 +1,5 @@
+package com.todolist.user;
+
+public class User {
+
+}

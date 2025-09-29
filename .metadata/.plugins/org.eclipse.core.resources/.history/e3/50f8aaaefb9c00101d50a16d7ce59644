@@ -1,0 +1,20 @@
+// Inside com.todolist.todo.TodoItemController.java
+
+// Handles GET requests to /add (Displays the form)
+@GetMapping("/add")
+public String showAddForm(TodoItem todoItem) {
+    // Passes an empty TodoItem object to bind the form fields to
+    return "add-todo-item";
+}
+
+// Handles POST requests to /add (Processes the form)
+@PostMapping("/add")
+public String addTodoItem(@ModelAttribute TodoItem todoItem) {
+    // 1. Validate: Although not added here, this is where validation would go.
+    
+    // 2. Save the new item to the database
+    todoItemRepository.save(todoItem);
+    
+    // 3. Redirect to the root path ("/") to see the updated list
+    return "redirect:/";
+}

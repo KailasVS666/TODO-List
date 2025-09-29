@@ -1,0 +1,53 @@
+package com.todolist.todo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping; // <-- New Import
+import org.springframework.web.bind.annotation.ModelAttribute; // <-- New Import
+
+@Controller
+public class TodoItemController {
+
+    private final TodoItemRepository todoItemRepository;
+
+    @Autowired
+    public TodoItemController(TodoItemRepository todoItemRepository) {
+        this.todoItemRepository = todoItemRepository;
+    }
+
+    // Handles GET requests to the root path (http://localhost:8080/)
+    @GetMapping("/")
+    public String listTodoItems(Model model) {
+        // 1. Fetch all TodoItems from the database
+        Iterable<TodoItem> items = todoItemRepository.findAll();
+        
+        // 2. Add the list of items to the Model object
+        model.addAttribute("todoItems", items);
+        
+        // 3. Return the name of the Thymeleaf template (index.html)
+        return "index"; 
+    }
+
+    // ------------------------------------
+    // NEW METHODS FOR ADD FUNCTIONALITY
+    // ------------------------------------
+
+    // Handles GET requests to /add (Displays the form)
+    @GetMapping("/add")
+    public String showAddForm(TodoItem todoItem) {
+        // Passes an empty TodoItem object for form binding
+        return "add-todo-item";
+    }
+
+    // Handles POST requests to /add (Processes the form submission)
+    @PostMapping("/add")
+    public String addTodoItem(@ModelAttribute TodoItem todoItem) {
+        // Saves the new item to the database
+        todoItemRepository.save(todoItem);
+        
+        // Redirects to the root path ("/") to display the updated list
+        return "redirect:/";
+    }
+}

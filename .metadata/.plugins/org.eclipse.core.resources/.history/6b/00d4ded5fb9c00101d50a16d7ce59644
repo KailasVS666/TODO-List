@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO-List</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        table { width: 60%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .completed { text-decoration: line-through; color: #888; }
+    </style>
+</head>
+<body>
+
+    <h1>📝 TODO List Application</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="item : ${todoItems}">
+                <td th:text="${item.id}">1</td> 
+                
+                <td th:classappend="${item.completed} ? 'completed'">
+                    <span th:text="${item.description}">Sample To Do Item</span>
+                </td>
+                
+                <td th:text="${item.completed ? 'Completed' : 'Pending'}">Pending</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p th:if="${#lists.isEmpty(todoItems)}">
+        **Your to-do list is empty!** Let's add the first task in the next step.
+    </p>
+
+</body>
+</html>
